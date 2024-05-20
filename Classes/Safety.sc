@@ -47,6 +47,7 @@ Safety {
 					ReplaceOut.ar(0, limited);
 				}
 			},
+			/*
 			\safeLimit: { |numChans, limit=1|
 				{
 					var limitCtl = \limit.kr(limit);
@@ -54,6 +55,17 @@ Safety {
 					var safeOuts = ReplaceBadValues.ar(mainOuts);
 					var limited = Limiter.ar(safeOuts, limitCtl);
 					ReplaceOut.ar(0, limited);
+				}
+			}
+			*/
+			safeLimit: { |numChans, limit=1|
+				{
+					var limitCtl = \limit.kr(limit);
+					var mainOuts = In.ar(0, numChans);
+					var safeOuts = ReplaceBadValues.ar(mainOuts);
+					var limited = Limiter.ar(safeOuts, limitCtl);
+					var filtered = LeakDC.ar(limited);
+					ReplaceOut.ar(0, filtered);
 				}
 			}
 		);
